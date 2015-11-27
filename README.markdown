@@ -1,3 +1,9 @@
+# Requirements
+
+- Maven
+- Java 1.8
+- foreman (optional)
+
 # Build
 
 `mvn package`
