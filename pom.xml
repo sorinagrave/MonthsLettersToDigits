@@ -4,12 +4,12 @@
     <groupId>net.ctomer.sorina</groupId>
     <artifactId>Monthsletterstodigits</artifactId>
     <version>1.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+    <packaging>jar</packaging>
     <name>Months Letters to digits</name>
     <url>http://maven.apache.org</url>
 
     <properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <build>

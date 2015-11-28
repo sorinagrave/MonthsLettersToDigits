@@ -13,36 +13,32 @@ public class Main {
     private static final int BIGGEST_THREE_DIGIT_31_MULTIPLIER = 999/31;
 
     public static void main(String[] args) {
-
+        long before = System.currentTimeMillis();
+        findFebruary();
+        long after = System.currentTimeMillis();
+        System.out.print(after - before);
+    }
+    private static int findFebruary(){
         // STEP 1 - work out the combinations for JAN and MAY
         ArrayList<HashMap<Integer,Character>>  divisibleBy31Combinations = getDivisibleBy31Combinations();
         for(HashMap<Integer,Character> valid31Combination : divisibleBy31Combinations ){
-            int janNumber = getValueForChar(valid31Combination, 'J') * 100 + getValueForChar(valid31Combination, 'A') * 10 + getValueForChar(valid31Combination, 'N');
-            int mayNumber = getValueForChar(valid31Combination, 'M') * 100 + getValueForChar(valid31Combination, 'A') * 10 + getValueForChar(valid31Combination, 'Y');
-            System.out.println();
-            System.out.println(String.format("JAN = %s", janNumber));
-            System.out.println(String.format("MAY = %s",  mayNumber));
 
             // STEP 2 - from the remaining digits work out combinations for APR for each JAN + MAY combination
             ArrayList<HashMap<Integer,Character>> valid30Combinations = getValid30Combinations(valid31Combination);
             if(valid30Combinations != null && valid30Combinations.size() > 0) {
                 for(HashMap<Integer,Character> valid30Combination:valid30Combinations) {
-                    int aprNumber = getValueForChar(valid31Combination, 'A') * 100 + getValueForChar(valid30Combination, 'P') * 10;
-                    System.out.println(String.format("APR = %s", aprNumber));
 
                     // STEP 3 - the remaining digits are FEB - work out if any combinations are divisible by 28
                     List<Integer> febDigits = extractFebDigits(valid31Combination,valid30Combination);
                     int febNumber = getValid28Combination(febDigits);
                     if(febNumber > 0){
                         System.out.println(String.format("FEB = %s", febNumber));
-                    }  else{
-                        System.out.println("**** INVALID FOR FEB ******");
+                        return febNumber;
                     }
                 }
-            }  else{
-                System.out.println("**** INVALID FOR APR ******");
             }
         }
+        return 0;
     }
     // Work out APR after JAN and MAY
     private static ArrayList<HashMap<Integer,Character>> getValid30Combinations(HashMap<Integer,Character> valid31Combination){
@@ -53,10 +49,9 @@ public class Main {
         //Find the P in APR - it cannot start with zero because R = 0
         for(int i = 1; i <= 9; i++){
             if(valid31Combination.get(i) != null) continue; // used in JAN & MAY
-            int aprNumber = aKey*100 + 10*i;
-            if(aprNumber%30 == 0){
+            int aprNumber = aKey + i;
+            if(aprNumber%3 == 0){
                 HashMap<Integer,Character> valid30Combination = new HashMap<Integer, Character>(2);
-                valid30Combination.put(0,'R');
                 valid30Combination.put(i,'P');
                 valid30Combinations.add(valid30Combination);
             }
@@ -149,7 +144,7 @@ public class Main {
     //Feb digits are the one that are not used in JAN, APR, MAY - extract any non matching
     private static ArrayList<Integer> extractFebDigits(HashMap<Integer,Character> aprMap, HashMap<Integer,Character> janMayMap){
         ArrayList<Integer> febDigits = new ArrayList<Integer>(3);
-        for(int i=0;i<=9;i++){
+        for(int i=1;i<=9;i++){
             if(aprMap.get(i) == null && janMayMap.get(i) == null){
                 febDigits.add(i);
             }
