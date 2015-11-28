@@ -3,7 +3,7 @@ package net.ctomer.sorina;
 /**
  * Created by sorina.
  */
-public class BitwiseBasedNumberProcessor {
+public class BitwiseBasedMonthProcessor implements MonthProcessor {
     private static final int SMALLEST_THREE_DIGIT_31_MULTIPLE = 124;
     private static final int BIGGEST_THREE_DIGIT_31_MULTIPLE = 992;
 
@@ -12,7 +12,7 @@ public class BitwiseBasedNumberProcessor {
     int janNumber;
     int mayNumber;
 
-    public void processMonths(){
+    public int findFebruary(){
         for(janNumber = SMALLEST_THREE_DIGIT_31_MULTIPLE; janNumber <= BIGGEST_THREE_DIGIT_31_MULTIPLE; janNumber += 31) {
             // this is JAN
             char[] janDigits = String.valueOf(janNumber).toCharArray();
@@ -33,9 +33,10 @@ public class BitwiseBasedNumberProcessor {
             if(currentMaskBitMap != 0x1){
                 // currentMaskBitMap hasn't been reset, therefore it is valid
                 int febNumber = processMayMask(currentMaskBitMap);
-                if(febNumber > 0) return;
+                if(febNumber > 0) return febNumber;
             }
         }
+        return -1;
     }
     private int processMayMask(int currentJanMaskBitMap){
         for(mayNumber =  SMALLEST_THREE_DIGIT_31_MULTIPLE; mayNumber <= BIGGEST_THREE_DIGIT_31_MULTIPLE; mayNumber+=31){

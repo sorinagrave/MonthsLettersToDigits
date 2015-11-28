@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by sorina.
  */
-public class HashMapBasedNumberProcessor {
+public class HashMapBasedMonthProcessor implements MonthProcessor {
 
     private static final int SMALLEST_THREE_DIGIT_31_MULTIPLIER = 100/31 + 1;
     private static final int BIGGEST_THREE_DIGIT_31_MULTIPLIER = 999/31;
