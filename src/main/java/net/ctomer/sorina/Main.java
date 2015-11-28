@@ -1,12 +1,11 @@
 package net.ctomer.sorina;
 
-public class Main {
+class Main {
 
     //JAN - divisible by 31
     //FEB - divisible by 28
     //APR - divisible by 30
     //MAY - divisible by 31
-
 
     public static void main(String[] args) {
         long before = System.nanoTime();

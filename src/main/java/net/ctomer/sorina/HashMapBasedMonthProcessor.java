@@ -12,7 +12,7 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
     private static final int SMALLEST_THREE_DIGIT_31_MULTIPLIER = 100/31 + 1;
     private static final int BIGGEST_THREE_DIGIT_31_MULTIPLIER = 999/31;
 
-    public int findFebruary(){
+    public void findFebruary(){
         // STEP 1 - work out the combinations for JAN and MAY
         ArrayList<HashMap<Integer,Character>> divisibleBy31Combinations = getDivisibleBy31Combinations();
         for(HashMap<Integer,Character> valid31Combination : divisibleBy31Combinations ){
@@ -27,17 +27,16 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
                     int febNumber = getValid28Combination(febDigits);
                     if(febNumber > 0){
                         System.out.println(String.format("FEB = %s", febNumber));
-                        return febNumber;
+                        return;
                     }
                 }
             }
         }
-        return 0;
     }
     // Work out APR after JAN and MAY
     private ArrayList<HashMap<Integer,Character>> getValid30Combinations(HashMap<Integer,Character> valid31Combination){
-        ArrayList<HashMap<Integer,Character>> valid30Combinations = new ArrayList<HashMap<Integer,Character>>();
-        int aKey = getValueForChar(valid31Combination,'A');
+        ArrayList<HashMap<Integer,Character>> valid30Combinations = new ArrayList<>();
+        int aKey = getValueForAChar(valid31Combination);
         if(aKey <= 0) return null; // shouldn't happen
 
         //Find the P in APR - it cannot start with zero because R = 0
@@ -45,7 +44,7 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
             if(valid31Combination.get(i) != null) continue; // used in JAN & MAY
             int aprNumber = aKey + i;
             if(aprNumber%3 == 0){
-                HashMap<Integer,Character> valid30Combination = new HashMap<Integer, Character>(2);
+                HashMap<Integer,Character> valid30Combination = new HashMap<>(2);
                 valid30Combination.put(i,'P');
                 valid30Combinations.add(valid30Combination);
             }
@@ -54,7 +53,7 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
     }
 
     private ArrayList<HashMap<Integer,Character>> getDivisibleBy31Combinations(){
-        ArrayList<HashMap<Integer,Character>> validNumbersPossibilities = new ArrayList<HashMap<Integer, Character>>();
+        ArrayList<HashMap<Integer,Character>> validNumbersPossibilities = new ArrayList<>();
 
         for(int i=SMALLEST_THREE_DIGIT_31_MULTIPLIER;i<=BIGGEST_THREE_DIGIT_31_MULTIPLIER;i++){
             // this is JAN
@@ -82,7 +81,7 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
         int janThirdDigit = findThirdDigit(janThreeDigitNumber);
         if(janThirdDigit == 0 || janThirdDigit == janFirstDigit || janThirdDigit == janSecondDigit) return null;
 
-        HashMap<Integer,Character> validJanMap = new HashMap<Integer, Character>(3);
+        HashMap<Integer,Character> validJanMap = new HashMap<>(3);
         validJanMap.put(janFirstDigit,'J');
         validJanMap.put(janSecondDigit,'A');
         validJanMap.put(janThirdDigit,'N');
@@ -94,7 +93,7 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
         if(mayFirstDigit == 0 || janMap.get(mayFirstDigit) != null) return null;
         // Second digit corresponds to A - must be the same as Jan
         int maySecondDigit = findSecondDigit(mayThreeDigitNumber);
-        if(maySecondDigit != getValueForChar(janMap, 'A')) return null;
+        if(maySecondDigit != getValueForAChar(janMap)) return null;
         int mayThirdDigit = findThirdDigit(mayThreeDigitNumber);
         if(mayThirdDigit == mayFirstDigit || mayThirdDigit == maySecondDigit || mayThirdDigit == 0 || janMap.get(mayThirdDigit) != null) return null;
 
@@ -104,7 +103,7 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
         return janAndMayMap;
     }
 
-    // ideally generate permutations programatically by recurssion
+    // ideally generate permutations programmatically by recursion
     private int getValid28Combination(List<Integer> digits){
         int n1 = digits.get(0)*100 + digits.get(1)*10 + digits.get(2);
         if (n1 % 28 == 0) return n1;
@@ -125,9 +124,9 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
         if (n6 % 28 == 0) return n6;
         return -1;
     }
-    private int getValueForChar(HashMap<Integer,Character> values, char character){
+    private int getValueForAChar(HashMap<Integer,Character> values){
         for(Integer key:values.keySet()){
-            if(values.get(key).equals(character)){
+            if(values.get(key).equals('A')){
                 return key;
             }
         }
@@ -136,7 +135,7 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
 
     //Feb digits are the one that are not used in JAN, APR, MAY - extract any non matching
     private ArrayList<Integer> extractFebDigits(HashMap<Integer,Character> aprMap, HashMap<Integer,Character> janMayMap){
-        ArrayList<Integer> febDigits = new ArrayList<Integer>(3);
+        ArrayList<Integer> febDigits = new ArrayList<>(3);
         for(int i=1;i<=9;i++){
             if(aprMap.get(i) == null && janMayMap.get(i) == null){
                 febDigits.add(i);
@@ -144,9 +143,9 @@ public class HashMapBasedMonthProcessor implements MonthProcessor {
         }
         return febDigits;
     }
-    // better to use our own that cloneable for copying hashmaps
+    // better to use our own that cloneable for copying hash maps
     private HashMap<Integer,Character> copyHashMap(HashMap<Integer,Character> source){
-        HashMap<Integer,Character> dest = new HashMap<Integer, Character>();
+        HashMap<Integer,Character> dest = new HashMap<>();
         for(Integer key:source.keySet()){
             dest.put(key,source.get(key));
         }

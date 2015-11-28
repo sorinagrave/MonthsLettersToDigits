@@ -7,12 +7,12 @@ public class BitwiseBasedMonthProcessor implements MonthProcessor {
     private static final int SMALLEST_THREE_DIGIT_31_MULTIPLE = 124;
     private static final int BIGGEST_THREE_DIGIT_31_MULTIPLE = 992;
 
-    int aLetterBitMask;
-    int aDigit;
-    int janNumber;
-    int mayNumber;
+    private int aLetterBitMask;
+    private int aDigit;
+    private int janNumber;
+    private int mayNumber;
 
-    public int findFebruary(){
+    public void findFebruary(){
         for(janNumber = SMALLEST_THREE_DIGIT_31_MULTIPLE; janNumber <= BIGGEST_THREE_DIGIT_31_MULTIPLE; janNumber += 31) {
             // this is JAN
             char[] janDigits = String.valueOf(janNumber).toCharArray();
@@ -33,10 +33,9 @@ public class BitwiseBasedMonthProcessor implements MonthProcessor {
             if(currentMaskBitMap != 0x1){
                 // currentMaskBitMap hasn't been reset, therefore it is valid
                 int febNumber = processMayMask(currentMaskBitMap);
-                if(febNumber > 0) return febNumber;
+                if(febNumber > 0) return;
             }
         }
-        return -1;
     }
     private int processMayMask(int currentJanMaskBitMap){
         for(mayNumber =  SMALLEST_THREE_DIGIT_31_MULTIPLE; mayNumber <= BIGGEST_THREE_DIGIT_31_MULTIPLE; mayNumber+=31){
