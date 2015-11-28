@@ -1,4 +1,4 @@
-package net.ctomer.sorina;
+package net.ctomer.sorina.monthsletterstodigits;
 
 import java.util.ArrayList;
 import java.util.HashMap;

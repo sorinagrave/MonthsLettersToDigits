@@ -1,4 +1,4 @@
-package net.ctomer.sorina;
+package net.ctomer.sorina.monthsletterstodigits;
 
 /**
  * Created by sorina.
@@ -10,7 +10,6 @@ public class BitwiseBasedMonthProcessor implements MonthProcessor {
     private int aLetterBitMask;
     private int aDigit;
     private int janNumber;
-    private int mayNumber;
 
     public void findFebruary(){
         for(janNumber = SMALLEST_THREE_DIGIT_31_MULTIPLE; janNumber <= BIGGEST_THREE_DIGIT_31_MULTIPLE; janNumber += 31) {
@@ -38,7 +37,7 @@ public class BitwiseBasedMonthProcessor implements MonthProcessor {
         }
     }
     private int processMayMask(int currentJanMaskBitMap){
-        for(mayNumber =  SMALLEST_THREE_DIGIT_31_MULTIPLE; mayNumber <= BIGGEST_THREE_DIGIT_31_MULTIPLE; mayNumber+=31){
+        for(int mayNumber =  SMALLEST_THREE_DIGIT_31_MULTIPLE; mayNumber <= BIGGEST_THREE_DIGIT_31_MULTIPLE; mayNumber +=31){
             if(mayNumber == janNumber){
                 // can't have MAY = JAN
                 continue;
@@ -108,40 +107,41 @@ public class BitwiseBasedMonthProcessor implements MonthProcessor {
     }
     // ideally generate permutations programmatically by recursion
     private int getValid28Combination(int[] febDigits){
+        int febNumber;
         if((febDigits[2] & 0x11) == 0 || ((febDigits[2] & 0x11) == 0x10 && (febDigits[0] & 0x1) == 0x1)){
-            int n1 = febDigits[1]*100 + febDigits[0]*10 + febDigits[2];
-            if(n1 % 7 == 0){
-                return n1;
+            febNumber = febDigits[1]*100 + febDigits[0]*10 + febDigits[2];
+            if(febNumber % 7 == 0){
+                return febNumber;
             }
         }
         if((febDigits[2] & 0x11) == 0 || ((febDigits[2] & 0x11) == 0x10 && (febDigits[1] & 0x1) == 0x1)){
-            int n1 = febDigits[0]*100 + febDigits[1]*10 + febDigits[2];
-            if(n1 % 7 == 0){
-                return n1;
+            febNumber = febDigits[0]*100 + febDigits[1]*10 + febDigits[2];
+            if(febNumber % 7 == 0){
+                return febNumber;
             }
         }
         if((febDigits[0] & 0x11) == 0 || ((febDigits[0] & 0x11) == 0x10 && (febDigits[1] & 0x1) == 0x1)){
-            int n1 = febDigits[2]*100 + febDigits[1]*10 + febDigits[0];
-            if(n1 % 7 == 0){
-                return n1;
+            febNumber = febDigits[2]*100 + febDigits[1]*10 + febDigits[0];
+            if(febNumber % 7 == 0){
+                return febNumber;
             }
         }
         if((febDigits[0] & 0x11) == 0 || ((febDigits[0] & 0x11) == 0x10 && (febDigits[2] & 0x1) == 0x1)){
-            int n1 = febDigits[1]*100 + febDigits[2]*10 + febDigits[0];
-            if(n1 % 7 == 0){
-                return n1;
+            febNumber = febDigits[1]*100 + febDigits[2]*10 + febDigits[0];
+            if(febNumber % 7 == 0){
+                return febNumber;
             }
         }
         if((febDigits[1] & 0x11) == 0 || ((febDigits[1] & 0x11) == 0x10 && (febDigits[2] & 0x1) == 0x1)){
-            int n1 = febDigits[0]*100 + febDigits[2]*10 + febDigits[1];
-            if(n1 % 7 == 0){
-                return n1;
+            febNumber = febDigits[0]*100 + febDigits[2]*10 + febDigits[1];
+            if(febNumber % 7 == 0){
+                return febNumber;
             }
         }
         if((febDigits[1] & 0x11) == 0 || ((febDigits[1] & 0x11) == 0x10 && (febDigits[0] & 0x1) == 0x1)){
-            int n1 = febDigits[2]*100 + febDigits[0]*10 + febDigits[1];
-            if(n1 % 7 == 0){
-                return n1;
+            febNumber = febDigits[2]*100 + febDigits[0]*10 + febDigits[1];
+            if(febNumber % 7 == 0){
+                return febNumber;
             }
         }
         return -1;

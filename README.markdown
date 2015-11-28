@@ -8,7 +8,7 @@
 
 or 
 
-`java -cp .:target/classes net.ctomer.sorina.Main`
+`java -cp .:target/classes Main`
 
 or if you have foreman installed
 
