@@ -25,7 +25,9 @@
                         </goals>
                     </execution>
                 </executions>
+
                 <configuration>
+                    <executable>net.ctomer.sorina.monthsletterstodigits.Main</executable>
                     <mainClass>net.ctomer.sorina.monthsletterstodigits.Main</mainClass>
                 </configuration>
             </plugin>
